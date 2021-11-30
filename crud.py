@@ -1,29 +1,23 @@
-import pypyodbc
-import db_connection as dbConn
-from read import Read
-from create import Create
-from update import Update
-from delete import Delete
+import pymysql.cursors
+import pymysql
 
-def main():
-    print('Available Options: C=Create, R=Read, U=Update, D=Delete ')
-    choice = input('Choose your option = ')
+# Connect to the database
+connection = pymysql.connect(host='deltona.birdnest.org',
+                             user='CSCI355',
+                             password='CSCI355',
+                             db='IPAllocations',
+                             charset='utf8mb4',
+                             port=3306,
+                             cursorclass=pymysql.cursors.DictCursor)
 
-    if choice == 'C':
-        createObj=Create()
-        createObj.func_CreateData()
-    elif choice == 'R':
-        readObj =  Read()
-        readObj.func_ReadData()
-    elif choice == 'U':
-        updateObj = Update()
-        updateObj.func_UpdateData()
-    elif choice == 'D':
-        deleteObj = Delete()
-        deleteObj.func_DeleteData()
-    else:
-        print('Wrong choice, You are going exist.')
+try:
 
-
-# Call the main function
-main()
+    with connection.cursor() as cursor:
+        # Reading records record
+        sql = "SELECT name FROM cityByCountry WHERE country=%s"
+        cursor.execute(sql, [226])
+        result = cursor.fetchmany(size=10)
+        print(result)
+        
+finally:
+    connection.close()
