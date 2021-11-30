@@ -26,6 +26,9 @@ def main():
         
         #Conditions on read
         q_cond = ''
+        
+        #Limit on records
+        q_lim = ''
     
         if choice == 'h':
             print('To create a table or record, enter \t\t\'c\'')
@@ -39,18 +42,36 @@ def main():
         
         if choice == 'r':
             
-            q_att = input("Enter attributes you wish to see: ")
+            #SELECT name FROM cityByCountry WHERE country=226
+            q_table =   input("Enter the table you which to access: ")
+            q_att =     input("Enter attributes you wish to see, seperated by commas: ")
+            q_cond =    input("Enter conditions on search (\'none\' for no conditions): ")
+            q_lim =     input("Enter number of records you wish to see (\'*\' for all records): ")
             
             try:
-
                 with connection.cursor() as cursor:
-                    # Reading records record
-                    sql = "SELECT name FROM cityByCountry WHERE country=%s"
-                    cursor.execute(sql, [226])
-                    result = cursor.fetchmany(size=10)
+                    # Reading records
+                    sql = "SELECT " + q_att + " FROM " + q_table
+                    
+                    if q_cond != 'none':
+                        sql += " WHERE " + q_cond
+                    
+                    print(sql)
+                    
+                    cursor.execute(sql, [])
+                    
+                    if q_lim == '*':
+                        result = cursor.fetchall()
+                        
+                    else:
+                        result = cursor.fetchmany(int(q_lim))
+                        
                     print(result)
                     
             finally:
-                connection.close()
+                print("Records obtained.")
+    
+    connection.close()
+                
 
 main()
