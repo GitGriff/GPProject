@@ -94,8 +94,6 @@ def main():
             
         elif choice == 'w':
             print("Presenting tables and their attributes.")
-            cursor.execute("SHOW TABLES")
-
             print(  "GENRE                                                      \n",
                     "+----+--------+                                            \n",
                     "| id | Genre  |                                            \n",
@@ -111,8 +109,6 @@ def main():
                     "| id | Name | YearRelease | Runtime | Description |        \n",
                     "+----+------+-------------+---------+-------------+          ")
         
-
-
         elif choice == 'q':
             print("Quitting program.")   
             
