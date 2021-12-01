@@ -114,10 +114,10 @@ def main():
             
         elif choice == 'w':
             print("Presenting tables and their attributes.")
-            print(  " GENRE                                                      \n",
-                    "+----+--------+                                            \n",
-                    "| id | Genre  |                                            \n",
-                    "+----+--------+                                            \n",
+            print(  " GENRE                                                     \n",
+                    "+----+-------+                                             \n",
+                    "| id | Genre |                                             \n",
+                    "+----+-------+                                             \n",
                     "                                                           \n",
                     "TYPE_OF                                                    \n",
                     "+---------+---------+                                      \n",
