@@ -94,6 +94,7 @@ def main():
             
         elif choice == 'w':
             print("Presenting tables and their attributes.")
+            cursor.execute("SHOW TABLES")
         
         elif choice == 'q':
             print("Quitting program.")   
