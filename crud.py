@@ -1,11 +1,22 @@
+#*******TABLES*******
+
+#GENRE
+#id, Genre
+
+#TYPE_OF
+#MovieID, GenreID
+
+#MOVIE
+#id, Name, Year, Runtime, Description
+
 import pymysql.cursors
 import pymysql
 
 # Connect to the database
 connection = pymysql.connect(host='deltona.birdnest.org',
-                             user='CSCI355',
-                             password='CSCI355',
-                             db='IPAllocations',
+                             user='my.diazn3',
+                             password='Nd!@z201877',
+                             db='my_diazn3_GPProject',
                              charset='utf8mb4',
                              port=3306,
                              cursorclass=pymysql.cursors.DictCursor)
@@ -18,16 +29,16 @@ def main():
     
     while choice != 'q':
     
-        #Query attributes one wishes to observe
+        #Attributes one wishes to create/read from/update/delete frpm a table
         q_att = ''
     
-        #Which table to obtain the results from
+        #Which table we want to create/read from/update/delete
         q_table = ''
         
         #Conditions on read
         q_cond = ''
         
-        #Limit on records
+        #Limit on records retreived
         q_lim = ''
     
         if choice == 'h':
@@ -35,15 +46,19 @@ def main():
             print('To read a table or record, enter \t\t\'r\'')
             print('To update a table or record, enter \t\t\'u\'')
             print('To delete create a table or record, enter \t\'d\'')
-            print('For help, enter \'h\'')
+            print('To see the tables in the database, enter \'w\'')
+            print('To see this message again, enter \'h\'')
             print('To quit, enter \'q\'')
         
         choice = input("Enter your choice: ")
         
-        if choice == 'r':
+        if choice == 'c':
+            q_table =   input("Enter the name of table you which to make a record for: ")
+
+        
+        elif choice == 'r':
             
-            #SELECT name FROM cityByCountry WHERE country=226
-            q_table =   input("Enter the table you which to access: ")
+            q_table =   input("Enter the name of the table you which to access: ")
             q_att =     input("Enter attributes you wish to see, seperated by commas: ")
             q_cond =    input("Enter conditions on search (\'none\' for no conditions): ")
             q_lim =     input("Enter number of records you wish to see (\'*\' for all records): ")
@@ -58,7 +73,7 @@ def main():
                     
                     print(sql)
                     
-                    cursor.execute(sql, [])
+                    cursor.execute(sql)
                     
                     if q_lim == '*':
                         result = cursor.fetchall()
@@ -71,7 +86,22 @@ def main():
             finally:
                 print("Records obtained.")
     
+        elif choice == 'u':
+            q_table = input("Enter the name of the table you wish to update records for: ")
+            
+        elif choice == 'd':
+            q_table =   input("Enter the name of the table you which to delete a record from: ")
+            
+        elif choice == 'w':
+            print("Presenting tables and their attributes.")
+        
+        elif choice == 'q':
+            print("Quitting program.")   
+            
+        else:
+            print("Enter \'h\' for help.")
+    
+    print("Connection will be closed.")
     connection.close()
                 
-
 main()
