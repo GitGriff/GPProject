@@ -95,7 +95,24 @@ def main():
         elif choice == 'w':
             print("Presenting tables and their attributes.")
             cursor.execute("SHOW TABLES")
+
+            print(  "GENRE                                                      \n",
+                    "+----+--------+                                            \n",
+                    "| id | Genre  |                                            \n",
+                    "+----+--------+                                            \n",
+                    "                                                           \n",
+                    "TYPE_OF                                                    \n",
+                    "+---------+---------+                                      \n",
+                    "| Movieid | Genreid |                                      \n",
+                    "+---------+---------+                                      \n",
+                    "                                                           \n",
+                    "MOVIE                                                      \n",
+                    "+----+------+-------------+---------+-------------+        \n",
+                    "| id | Name | YearRelease | Runtime | Description |        \n",
+                    "+----+------+-------------+---------+-------------+          ")
         
+
+
         elif choice == 'q':
             print("Quitting program.")   
             
