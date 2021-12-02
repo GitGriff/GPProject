@@ -9,6 +9,7 @@
 #MOVIE
 #id, Name, Year, Runtime, Description
 
+import pymysql.err
 import pymysql.cursors
 import pymysql
 
@@ -55,15 +56,17 @@ def main():
         if choice == 'c':
             q_table =   input("Enter the name of table you which to make a record for: ")
 
+            sql = "INSERT INTO " + q_table
+
             try:
                 with connection.cursor() as cursor:
                     cursor.execute(sql)
                         
                     print(result)
                 
-            except:
-                print("Could not create record.")
-                    
+            except pymysql.ProgrammingError as e:
+                print ("SQL Error Caught",e)
+                
             else:
                 print("Records created.")
             
@@ -93,8 +96,8 @@ def main():
                         
                     print(result)
                 
-            except:
-                print("Could not obtain records.")
+            except pymysql.ProgrammingError as e:
+                print ("SQL Error Caught",e)
                     
             else:
                 print("Records obtained.")
@@ -116,8 +119,8 @@ def main():
                 with connection.cursor() as cursor:
                     cursor.execute(sql)
             
-            except:
-                print("Unable to delete records.")
+            except pymysql.ProgrammingError as e:
+                print ("SQL Error Caught",e)
             
             else:
                 print("Record deleted.")
