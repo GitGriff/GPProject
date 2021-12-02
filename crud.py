@@ -82,15 +82,35 @@ def main():
                         result = cursor.fetchmany(int(q_lim))
                         
                     print(result)
+                
+            except:
+                print("Could not obtain records.")
                     
-            finally:
+            else:
                 print("Records obtained.")
     
         elif choice == 'u':
             q_table = input("Enter the name of the table you wish to update records for: ")
             
         elif choice == 'd':
-            q_table =   input("Enter the name of the table you which to delete a record from: ")
+            q_table = input("Enter the name of the table you which to delete a record from: ")
+            
+            q_cond = input("Enter the conditions of your delete (\'none\' for no conditions): ")
+            
+            sql = "DELETE FROM " + q_table
+            
+            if q_cond != "none":
+                sql += " WHERE " + q_cond
+            
+            try:
+                with connection.cursor() as cursor:
+                    cursor.execute(sql)
+            
+            except:
+                print("Unable to delete records.")
+            
+            else:
+                print("Record deleted.")
             
         elif choice == 'w':
             print("Presenting tables and their attributes.")
