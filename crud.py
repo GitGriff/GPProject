@@ -55,6 +55,18 @@ def main():
         if choice == 'c':
             q_table =   input("Enter the name of table you which to make a record for: ")
 
+            try:
+                with connection.cursor() as cursor:
+                    cursor.execute(sql)
+                        
+                    print(result)
+                
+            except:
+                print("Could not create record.")
+                    
+            else:
+                print("Records created.")
+            
         
         elif choice == 'r':
             
@@ -63,16 +75,14 @@ def main():
             q_cond =    input("Enter conditions on search (\'none\' for no conditions): ")
             q_lim =     input("Enter number of records you wish to see (\'*\' for all records): ")
             
+             # Reading records
+            sql = "SELECT " + q_att + " FROM " + q_table
+                    
+            if q_cond != 'none':
+                sql += " WHERE " + q_cond
+            
             try:
                 with connection.cursor() as cursor:
-                    # Reading records
-                    sql = "SELECT " + q_att + " FROM " + q_table
-                    
-                    if q_cond != 'none':
-                        sql += " WHERE " + q_cond
-                    
-                    print(sql)
-                    
                     cursor.execute(sql)
                     
                     if q_lim == '*':
