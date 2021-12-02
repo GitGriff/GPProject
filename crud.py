@@ -42,12 +42,12 @@ def main():
         q_lim = ''
     
         if choice == 'h':
-            print('To create a table or record, enter \t\t\'c\'')
-            print('To read a table or record, enter \t\t\'r\'')
-            print('To update a table or record, enter \t\t\'u\'')
-            print('To delete create a table or record, enter \t\'d\'')
-            print('To see the tables in the database, enter \'w\'')
-            print('To see this message again, enter \'h\'')
+            print('To create a record, enter \t\t\'c\'')
+            print('To read a record, enter \t\t\'r\'')
+            print('To update a record, enter \t\t\'u\'')
+            print('To delete create a record, enter \t\'d\'')
+            print('To see tables in the database, enter \t\'w\'')
+            print('To see this message again, enter \t\'h\'')
             print('To quit, enter \'q\'')
         
         choice = input("Enter your choice: ")
