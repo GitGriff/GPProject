@@ -135,14 +135,25 @@ def main():
         elif choice == 'u':
             q_table = input("Enter the name of the table you wish to update records for: ")
             
-            q_att = input("Enter attributes you wish update, seperated by commas:")
+            q_attstr = input("Enter attributes you wish update, seperated by commas: ")
 
-            q_cond = input("Enter conditions on update ('none' for no conditions): ")
+            q_att = q_attstr.split(',')
 
-            sql = "UPDATE " + q_table + " SET " + q_att
+            q_updstr = input("Enter the updated values corresponding the desired attributes, seperated by commas: ")
 
-            if q_cond != "none":
-                sql += " WHERE " + q_cond
+            q_upd = q_updstr.split(',')
+
+            q_cond = input("Enter conditions on update: ")
+
+            sql = "UPDATE " + q_table + " SET "
+
+            for i in range(0,len(q_att)):
+                if i != len(q_att)-1:
+                    sql += q_att[i] + " = \"" + q_upd[i] + "\", "
+                else:
+                    sql += q_att[i] + " = \"" + q_upd[i] + "\" "
+            
+            sql += "WHERE " + q_cond + ";"
 
             try:
                 with connection.cursor() as cursor:
@@ -157,15 +168,29 @@ def main():
                 print("Records updated.")
                 
         elif choice == 'd':
+            sql = "DELETE FROM "
+            
             q_table = input("Enter the name of the table you which to delete a record from: ")
             
-            q_cond = input("Enter the conditions of your delete (\'none\' for no conditions): ")
+            sql += q_table + " WHERE "
+
+            finished = ""
+            while finished != "y":
+                q_att = input("Enter attribute for condition: ")
+                sql += q_att + " = "
+                
+                q_att = input("Enter value for attribute condition: ")
+                sql += q_att
+                
+                finished = input("No more conditions? (y/n): ")
+
+                if finished == 'n':
+                    sql += " AND "
+
+            sql += ";"
             
-            sql = "DELETE FROM " + q_table
-            
-            if q_cond != "none":
-                sql += " WHERE " + q_cond
-            
+            print(sql)
+
             try:
                 with connection.cursor() as cursor:
                     cursor.execute(sql)
