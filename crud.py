@@ -9,6 +9,8 @@
 #MOVIE
 #id, Name, Year, Runtime, Description
 
+#Our method of preventing SQL injection is by using paramterized SQL statements
+
 import pymysql.err
 import pymysql.cursors
 import pymysql
