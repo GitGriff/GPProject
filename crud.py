@@ -107,7 +107,7 @@ def main():
             
             q_att = input("Enter attributes you wish update, seeperated by commas:")
 
-            q_cond = input("Enter conditions on UPDATE ('none' for no conditions")
+            q_cond = input("Enter conditions on update ('none' for no conditions")
 
             sql = "UPDATE " + q_table + "SET " + q_att
 
@@ -118,11 +118,11 @@ def main():
                 with connection.cursor() as cursor:
                     cursor.execute(sql)
 
-            except:
-                print("Unable to UPDATE Records.")
-
+            except pymysql.ProgrammingError as e:
+                print ("SQL Error Caught",e)
+                    
             else:
-                print("Record UPDATED.")
+                print("Records updated.")
                 
         elif choice == 'd':
             q_table = input("Enter the name of the table you which to delete a record from: ")
