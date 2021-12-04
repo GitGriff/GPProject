@@ -54,21 +54,46 @@ def main():
         choice = input("Enter your choice: ")
         
         if choice == 'c':
+            a1, a2, a3, a4 = ""
+            
             q_table =   input("Enter the name of table you which to make a record for: ")
 
             sql = "INSERT INTO " + q_table
 
-            try:
-                with connection.cursor() as cursor:
-                    cursor.execute(sql)
-                        
-                    print(result)
-                
-            except pymysql.ProgrammingError as e:
-                print ("SQL Error Caught",e)
-                
+            tablechosen = True
+
+            if q_table == "GENRE":
+                a1 = input("Enter the name of genre for the record: ")
+                sql += " (id, Genre) VALUES (NULL, " + a1 + ");"
+
+            elif q_table == "TYPE_OF":
+                a1 = input("Enter id of the movie: ")
+                a2 = input("Enter id of the genre: ")
+                sql += " (Movieid, Genreid) VALUES (" + a1 + ", " + a2 + ");"
+
+            elif q_table == "MOVIE":
+                a1 = input("Enter name of the movie: ")
+                a2 = input("Enter release year of the movie: ")
+                a3 = input("Enter runtime (in minutes) of the movie: ")
+                a4 = input("Enter description of the movie: ")
+                sql += " (id, Name, YearRelease, Runtime, Description) VALUES (NULL, " + a1 + ", " + a2 + ", "+ a3 + ", " + a4 + ");"
+
             else:
-                print("Records created.")
+                print("Please enter a table in the databse.")
+                tablechosen = False
+
+            if tablechosen:
+                try:
+                    with connection.cursor() as cursor:
+                        cursor.execute(sql)
+                            
+                        print(result)
+                    
+                except pymysql.ProgrammingError as e:
+                    print ("SQL Error Caught",e)
+                    
+                else:
+                    print("Records created.")
             
         
         elif choice == 'r':
