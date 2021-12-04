@@ -107,6 +107,23 @@ def main():
             
             q_att = input("Enter attributes you wish update, seeperated by commas:")
 
+            q_cond = input("Enter conditions on UPDATE ('none' for no conditions")
+
+            sql = "UPDATE " + q_table + "SET " + q_att
+
+            if q_cond != "none":
+                sql += " WHERE " + q_cond
+
+            try:
+                with connection.cursor() as cursor:
+                    cursor.execute(sql)
+
+            except:
+                print("Unable to UPDATE Records.")
+
+            else:
+                print("Record UPDATED.")
+                
         elif choice == 'd':
             q_table = input("Enter the name of the table you which to delete a record from: ")
             
