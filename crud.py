@@ -105,6 +105,8 @@ def main():
         elif choice == 'u':
             q_table = input("Enter the name of the table you wish to update records for: ")
             
+            q_att = input("Enter attributes you wish update, seeperated by commas:")
+
         elif choice == 'd':
             q_table = input("Enter the name of the table you which to delete a record from: ")
             
