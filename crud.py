@@ -103,16 +103,49 @@ def main():
         
         elif choice == 'r':
             
-            q_table =   input("Enter the name of the table you which to access: ")
-            q_att =     input("Enter attributes you wish to see, seperated by commas: ")
-            q_cond =    input("Enter conditions on search (\'none\' for no conditions): ")
-            q_lim =     input("Enter number of records you wish to see (\'*\' for all records): ")
+            sql = ''
+            joinflag = input("Read from two tables? (y/n): ")
             
-            # Reading records
-            sql = "SELECT " + q_att + " FROM " + q_table
+            if joinflag == 'y':
+                table1 = input("Enter the name of the first table you which to access: ")
+                t1att =  input("Enter attributes you wish to see, seperated by commas: ")
+                
+                table2 = input("Enter the name of the second table you which to access: ")
+                t2att =  input("Enter attributes you wish to see, seperated by commas: ")
+                
+                q_cond =    input("Enter conditions on search, seperated by commas (\'none\' for no conditions): ")
+                
+                q_lim =     input("Enter number of records you wish to see (\'*\' for all records): ")
+                
+                sql += "SELECT " + t1att + ", " + t2att + " FROM " + table1 + " JOIN TYPE_OF as typeof ON "
+                
+                if table1 == 'MOVIE':
+                    sql += "typeof.Movieid = MOVIE.id JOIN " + table2 + " ON GENRE.id = typeof.Genreid"
+                
+                else:
+                    sql += "typeof.Genreid = GENRE.id JOIN " + table2 + " ON MOVIE.id = typeof.Movieid"
+                
+            elif joinflag == 'n':   
+                q_table =   input("Enter the name of the table you which to access: ")
+                q_att =     input("Enter attributes you wish to see, seperated by commas: ")
+                q_cond =    input("Enter conditions on search, seperated by commas (\'none\' for no conditions): ")
+                q_lim =     input("Enter number of records you wish to see (\'*\' for all records): ")
+                
+                sql += "SELECT " + q_att + " FROM " + q_table
+            
+            else:
+                print("Please enter y/n.")
                     
             if q_cond != 'none':
-                sql += " WHERE " + q_cond
+                condlist = q_cond.split(",")
+                for i in range(0, len(condlist)):
+                    if i == len(condlist)-1:
+                        sql += condlist[i] + ";"
+                        
+                    else:
+                        sql += condlist[i] + " AND "
+            
+            print(sql)
             
             try:
                 with connection.cursor() as cursor:
@@ -143,7 +176,7 @@ def main():
 
             q_upd = q_updstr.split(',')
 
-            q_cond = input("Enter conditions on update: ")
+            q_cond = input("Enter conditions on update, seperated by commas: ")
 
             sql = "UPDATE " + q_table + " SET "
 
@@ -153,7 +186,13 @@ def main():
                 else:
                     sql += q_att[i] + " = \"" + q_upd[i] + "\" "
             
-            sql += "WHERE " + q_cond + ";"
+            condlist = q_cond.split(",")
+            for i in range(0, len(condlist)):
+                if i == len(condlist)-1:
+                    sql += condlist[i] + ";"
+                    
+                else:
+                    sql += condlist[i] + " AND "
 
             try:
                 with connection.cursor() as cursor:
