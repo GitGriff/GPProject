@@ -49,7 +49,7 @@ def main():
             print('To create a record, enter \t\t\'c\'')
             print('To read a record, enter \t\t\'r\'')
             print('To update a record, enter \t\t\'u\'')
-            print('To delete a record, enter \t\'d\'')
+            print('To delete a record, enter \t\t\'d\'')
             print('To see tables in the database, enter \t\'w\'')
             print('To see this message again, enter \t\'h\'')
             print('To quit, enter \'q\'')
