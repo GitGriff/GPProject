@@ -137,6 +137,7 @@ def main():
                 print("Please enter y/n.")
                     
             if q_cond != 'none':
+                sql += " WHERE "
                 condlist = q_cond.split(",")
                 for i in range(0, len(condlist)):
                     if i == len(condlist)-1:
@@ -186,6 +187,7 @@ def main():
                 else:
                     sql += q_att[i] + " = \"" + q_upd[i] + "\" "
             
+            sql += " WHERE "
             condlist = q_cond.split(",")
             for i in range(0, len(condlist)):
                 if i == len(condlist)-1:
