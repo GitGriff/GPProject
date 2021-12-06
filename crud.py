@@ -45,16 +45,18 @@ def main():
         q_lim = ''
     
         if choice == 'h':
+            #Print our options for user
             print('To create a record, enter \t\t\'c\'')
             print('To read a record, enter \t\t\'r\'')
             print('To update a record, enter \t\t\'u\'')
-            print('To delete create a record, enter \t\'d\'')
+            print('To delete a record, enter \t\'d\'')
             print('To see tables in the database, enter \t\'w\'')
             print('To see this message again, enter \t\'h\'')
             print('To quit, enter \'q\'')
         
         choice = input("Enter your choice: ")
         
+        #Create record module
         if choice == 'c':
             a1 = ""
             a2 = ""
@@ -67,6 +69,7 @@ def main():
 
             tablechosen = True
 
+            #Hard-coded creation tables per each table in our project
             if q_table == "GENRE":
                 a1 = input("Enter the name of genre for the record: ")
                 sql += " (id, Genre) VALUES (NULL, \"" + a1 + "\");"
@@ -101,11 +104,15 @@ def main():
                     print("Records created.")
             
         
+        #Record read module
         elif choice == 'r':
             
             sql = ''
+            
+            #Join flag: only two joins are possible for the tables we used in our project
             joinflag = input("Read from two tables? (y/n): ")
             
+            #Join the tables
             if joinflag == 'y':
                 table1 = input("Enter the name of the first table you which to access: ")
                 t1att =  input("Enter attributes you wish to see, seperated by commas: ")
@@ -124,7 +131,8 @@ def main():
                 
                 else:
                     sql += "typeof.Genreid = GENRE.id JOIN " + table2 + " ON MOVIE.id = typeof.Movieid"
-                
+            
+            #Only read form one table
             elif joinflag == 'n':   
                 q_table =   input("Enter the name of the table you which to access: ")
                 q_att =     input("Enter attributes you wish to see, seperated by commas: ")
@@ -133,9 +141,11 @@ def main():
                 
                 sql += "SELECT " + q_att + " FROM " + q_table
             
+            #User did not answer the question
             else:
                 print("Please enter y/n.")
                     
+            #Apply multiple conditions
             if q_cond != 'none':
                 sql += " WHERE "
                 condlist = q_cond.split(",")
@@ -145,8 +155,6 @@ def main():
                         
                     else:
                         sql += condlist[i] + " AND "
-            
-            print(sql)
             
             try:
                 with connection.cursor() as cursor:
@@ -166,6 +174,7 @@ def main():
             else:
                 print("Records obtained.")
     
+        #Update record module
         elif choice == 'u':
             q_table = input("Enter the name of the table you wish to update records for: ")
             
@@ -181,12 +190,14 @@ def main():
 
             sql = "UPDATE " + q_table + " SET "
 
+            #Build SQL string update clause from user input
             for i in range(0,len(q_att)):
                 if i != len(q_att)-1:
                     sql += q_att[i] + " = \"" + q_upd[i] + "\", "
                 else:
                     sql += q_att[i] + " = \"" + q_upd[i] + "\" "
             
+            #Apply multiple conditions
             sql += " WHERE "
             condlist = q_cond.split(",")
             for i in range(0, len(condlist)):
@@ -208,6 +219,7 @@ def main():
             else:
                 print("Records updated.")
                 
+        #Delete record module
         elif choice == 'd':
             sql = "DELETE FROM "
             
@@ -215,6 +227,7 @@ def main():
             
             sql += q_table + " WHERE "
 
+            #Ask user for each conditions needed to delete
             finished = ""
             while finished != "y":
                 q_att = input("Enter attribute for condition: ")
@@ -244,6 +257,7 @@ def main():
             else:
                 print("Record deleted.")
             
+        #Module for helping user navigate the database
         elif choice == 'w':
             print("Presenting tables and their attributes.")
             print(  " GENRE                                                     \n",
@@ -261,12 +275,15 @@ def main():
                     "| id | Name | YearRelease | Runtime | Description |        \n",
                     "+----+------+-------------+---------+-------------+          ")
         
+        #Module for quitting program
         elif choice == 'q':
             print("Quitting program.")   
             
+        #Module requesting user for valid input
         else:
             print("Enter \'h\' for help.")
     
+    #Close connection to database
     print("Connection will be closed.")
     connection.close()
                 
