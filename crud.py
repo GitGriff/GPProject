@@ -135,7 +135,7 @@ def main():
             #Only read form one table
             elif joinflag == 'n':   
                 q_table =   input("Enter the name of the table you which to access: ")
-                q_att =     input("Enter attributes you wish to see, seperated by commas: ")
+                q_att =     input("Enter attributes you wish to see, seperated by commas (enter \'*\' for all attributes in table): ")
                 q_cond =    input("Enter conditions on search, seperated by commas (\'none\' for no conditions): ")
                 q_lim =     input("Enter number of records you wish to see (\'*\' for all records): ")
                 
