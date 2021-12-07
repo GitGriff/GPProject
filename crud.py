@@ -14,6 +14,8 @@
 import pymysql.err
 import pymysql.cursors
 import pymysql
+import MySQLdb
+
 
 # Connect to the database
 connection = pymysql.connect(host='deltona.birdnest.org',
@@ -72,19 +74,19 @@ def main():
             #Hard-coded creation tables per each table in our project
             if q_table == "GENRE":
                 a1 = input("Enter the name of genre for the record: ")
-                sql += " (id, Genre) VALUES (NULL, \"" + a1 + "\");"
+                sql += " (id, Genre) VALUES (NULL, \"" + MySQLdb.escapestring(a1) + "\");"
 
             elif q_table == "TYPE_OF":
                 a1 = input("Enter id of the movie: ")
                 a2 = input("Enter id of the genre: ")
-                sql += " (Movieid, Genreid) VALUES (\"" + a1 + "\", \"" + a2 + "\");"
+                sql += " (Movieid, Genreid) VALUES (\"" + MySQLdb.escapestring(a1) + "\", \"" + MySQLdb.escapestring(a2) + "\");"
 
             elif q_table == "MOVIE":
                 a1 = input("Enter name of the movie: ")
                 a2 = input("Enter release year of the movie: ")
                 a3 = input("Enter runtime (in minutes) of the movie: ")
                 a4 = input("Enter description of the movie: ")
-                sql += " (id, Name, YearRelease, Runtime, Description) VALUES (NULL, \"" + a1 + "\", \"" + a2 + "\", \""+ a3 + "\", \"" + a4 + "\");"
+                sql += " (id, Name, YearRelease, Runtime, Description) VALUES (NULL, \"" + MySQLdb.escapestring(a1) + "\", \"" + MySQLdb.escapestring(a2) + "\", \""+ MySQLdb.escapestring(a3) + "\", \"" + MySQLdb.escapestring(a4) + "\");"
 
             else:
                 print("Please enter a table in the databse.")
@@ -114,10 +116,10 @@ def main():
             
             #Join the tables
             if joinflag == 'y':
-                table1 = input("Enter the name of the first table you which to access: ")
+                table1 = MySQLdb.escapestring(input("Enter the name of the first table you which to access: "))
                 t1att =  input("Enter attributes you wish to see, seperated by commas: ")
                 
-                table2 = input("Enter the name of the second table you which to access: ")
+                table2 = MySQLdb.escapestring(input("Enter the name of the second table you which to access: "))
                 t2att =  input("Enter attributes you wish to see, seperated by commas: ")
                 
                 q_cond =    input("Enter conditions on search, seperated by commas (\'none\' for no conditions): ")
@@ -134,8 +136,8 @@ def main():
             
             #Only read form one table
             elif joinflag == 'n':   
-                q_table =   input("Enter the name of the table you which to access: ")
-                q_att =     input("Enter attributes you wish to see, seperated by commas (enter \'*\' for all attributes in table): ")
+                q_table =   MySQLdb.escapestring(input("Enter the name of the table you which to access: "))
+                q_att =     MySQLdb.escapestring(input("Enter attributes you wish to see, seperated by commas (enter \'*\' for all attributes in table): "))
                 q_cond =    input("Enter conditions on search, seperated by commas (\'none\' for no conditions): ")
                 q_lim =     input("Enter number of records you wish to see (\'*\' for all records): ")
                 
@@ -176,7 +178,7 @@ def main():
     
         #Update record module
         elif choice == 'u':
-            q_table = input("Enter the name of the table you wish to update records for: ")
+            q_table = MySQLdb.escapestring(input("Enter the name of the table you wish to update records for: "))
             
             q_attstr = input("Enter attributes you wish update, seperated by commas: ")
 
@@ -223,17 +225,17 @@ def main():
         elif choice == 'd':
             sql = "DELETE FROM "
             
-            q_table = input("Enter the name of the table you which to delete a record from: ")
+            q_table = MySQLdb.escapestring(input("Enter the name of the table you which to delete a record from: "))
             
             sql += q_table + " WHERE "
 
             #Ask user for each conditions needed to delete
             finished = ""
             while finished != "y":
-                q_att = input("Enter attribute for condition: ")
+                q_att = MySQLdb.escapestring(input("Enter attribute for condition: "))
                 sql += q_att + " = "
                 
-                q_att = input("Enter value for attribute condition: ")
+                q_att = MySQLdb.escapestring(input("Enter value for attribute condition: "))
                 sql += q_att
                 
                 finished = input("No more conditions? (y/n): ")
